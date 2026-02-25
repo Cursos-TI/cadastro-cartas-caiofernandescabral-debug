@@ -1,80 +1,104 @@
-# Desafio Super Trunfo - Países - Cadastro das Cartas
+#include <stdio.h>
 
-Bem-vindo ao desafio "Super Trunfo - Países"! No jogo Super Trunfo, os jogadores comparam as propriedades das cartas para determinar a mais forte. O tema deste Super Trunfo é "Países," onde você comparará as propriedades das cidades.
+// Estrutura que representa uma carta do Super Trunfo
+struct Carta {
+    char estado[30];
+    char codigo[10];
+    char nomeCidade[50];
+    int populacao;
+    float area;
+    float pib;
+    int pontosTuristicos;
+    float densidadePopulacional;
+    float pibPerCapita;
+};
 
-A empresa MateCheck contratou você para desenvolver a parte inicial do jogo, que consiste no cadastro das cartas.
+int main() {
 
-O desafio está dividido em três níveis: Novato, Aventureiro e Mestre, com cada nível adicionando mais complexidade ao anterior. Você deve escolher qual desafio quer realizar.
+    // ================================
+    // Cadastro das Cartas (Pré-definidas)
+    // ================================
 
-### 🚨 Atenção: 
-O nível Novato do desafio é focado apenas no cadastro das cartas, utilizando as funções scanf para ler os dados e printf para exibi-los.
+    struct Carta carta1 = {
+        "SP",
+        "C01",
+        "Sao Paulo",
+        12300000,
+        1521.11,
+        699000000000.0,
+        50
+    };
 
-## 🎮 Nível Novato
+    struct Carta carta2 = {
+        "RJ",
+        "C02",
+        "Rio de Janeiro",
+        6000000,
+        1182.30,
+        300000000000.0,
+        30
+    };
 
-No nível Novato, você iniciará criando o sistema básico do jogo Super Trunfo com o tema "Países". As cartas serão divididas por estados, cada um com quatro cidades. 
+    // ================================
+    // Cálculo da Densidade Populacional
+    // Fórmula: População / Área
+    // ================================
 
-Cada país será dividido em oito estados, identificados pelas letras de A a H. Cada estado terá quatro cidades, numeradas de 1 a 4. A combinação da letra do estado e o número da cidade define o código da carta (por exemplo, A01, A02, B01, B02).
+    carta1.densidadePopulacional = carta1.populacao / carta1.area;
+    carta2.densidadePopulacional = carta2.populacao / carta2.area;
 
-### 🚩 Objetivo:
-- Criar cartas representando cidades, contendo as seguintes propriedades:
-  - **População**
-  - **Área**
-  - **PIB**
-  - **Número de pontos turísticos**
-  
-### ⚙️ Funcionalidades do Sistema:
-- O sistema permitirá ao usuário cadastrar cartas de cidades, inserindo manualmente os dados via terminal de comando.
-- Após o cadastro, o sistema exibirá os dados de cada cidade de forma clara e organizada.
+    // ================================
+    // Cálculo do PIB per capita
+    // Fórmula: PIB / População
+    // ================================
 
-### 📥 Entrada e 📤 Saída de Dados:
-- O usuário insere os dados de cada carta interativamente.
-- Após o cadastro, os dados são exibidos com todas as propriedades da cidade, uma por linha.
+    carta1.pibPerCapita = carta1.pib / carta1.populacao;
+    carta2.pibPerCapita = carta2.pib / carta2.populacao;
 
----
+    // ================================
+    // ESCOLHA DO ATRIBUTO PARA COMPARAÇÃO
+    // Neste exemplo: POPULAÇÃO
+    // ================================
 
-## 🛡️ Nível Aventureiro
+    printf("========================================\n");
+    printf("Comparacao de cartas (Atributo: Populacao)\n");
+    printf("========================================\n\n");
 
-No nível Aventureiro, você expandirá o sistema para incluir propriedades calculadas, permitindo uma análise mais detalhada das cartas.
+    printf("Carta 1 - %s (%s): %d\n",
+           carta1.nomeCidade, carta1.estado, carta1.populacao);
 
-### 🆕 Diferença em relação ao Nível Novato:
-- **Novas Propriedades Calculadas:**
-  - **Densidade Populacional:** População dividida pela área da cidade.
-  - **PIB per Capita:** PIB total dividido pela população.
+    printf("Carta 2 - %s (%s): %d\n\n",
+           carta2.nomeCidade, carta2.estado, carta2.populacao);
 
-### ⚙️ Funcionalidades do Sistema:
-- O sistema agora calculará automaticamente a Densidade Populacional e o PIB per Capita com base nos dados inseridos.
-- Essas novas propriedades serão adicionadas às informações exibidas para cada cidade.
+    // ================================
+    // Lógica de Comparação
+    // Regra:
+    // Para População -> Maior valor vence
+    // ================================
 
-### 📥 Entrada e 📤 Saída de Dados:
-- O usuário continua inserindo os dados de cada carta interativamente.
-- O sistema exibirá os dados, incluindo as novas propriedades calculadas, de forma clara e organizada.
+    if (carta1.populacao > carta2.populacao) {
+        printf("Resultado: Carta 1 (%s) venceu!\n", carta1.nomeCidade);
+    }
+    else if (carta2.populacao > carta1.populacao) {
+        printf("Resultado: Carta 2 (%s) venceu!\n", carta2.nomeCidade);
+    }
+    else {
+        printf("Resultado: Empate!\n");
+    }
 
----
+    // ================================
+    // Exibição extra dos cálculos
+    // (Mostrando que o programa realmente calculou)
+    // ================================
 
-## 🏆 Nível Mestre
+    printf("\n----- Informacoes Calculadas -----\n");
+    printf("Densidade Populacional:\n");
+    printf("%s: %.2f hab/km2\n", carta1.nomeCidade, carta1.densidadePopulacional);
+    printf("%s: %.2f hab/km2\n\n", carta2.nomeCidade, carta2.densidadePopulacional);
 
-No nível Mestre, você implementará comparações entre as cartas, utilizando operadores relacionais e manipulando grandes números com precisão.
+    printf("PIB per capita:\n");
+    printf("%s: %.2f\n", carta1.nomeCidade, carta1.pibPerCapita);
+    printf("%s: %.2f\n", carta2.nomeCidade, carta2.pibPerCapita);
 
-### 🆕 Diferença em relação ao Nível Aventureiro:
-- **Comparação de Cartas:**
-  - O sistema permitirá ao usuário comparar duas cartas com base nas propriedades inseridas e calculadas.
-  - Cada carta terá um "Super Poder", que é a soma de todas as propriedades.
-  
-### ⚙️ Funcionalidades do Sistema:
-- O sistema utilizará operadores relacionais para determinar a carta vencedora com base nas propriedades comparadas.
-- A comparação considerará:
-  - **Densidade Populacional:** Vence a carta com menor valor.
-  - **Outras Propriedades:** Vence a carta com maior valor.
-- O resultado das comparações será exibido claramente para cada propriedade.
-
-### 📥 Entrada e 📤 Saída de Dados:
-- O usuário insere as cartas a serem comparadas.
-- O sistema exibe os resultados das comparações, indicando a carta vencedora para cada propriedade.
-
----
-
-Ao concluir todos os níveis, você terá criado um sistema incial para o jogo Super Trunfo, com funcionalidades de cadastro, cálculo e comparação de propriedades. 
-
-Boa sorte e divirta-se programando!
-
-Equipe de Ensino - MateCheck
+    return 0;
+}
